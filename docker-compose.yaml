@@ -64,7 +64,7 @@ services:
         ipv6_address: fdbe:1005:e8bf::4
     # links:
     #   - valkey:valkey
-    command: ['-d']
+    command: ['-dd']
   #######################################
   valkey:
     container_name: valkey
