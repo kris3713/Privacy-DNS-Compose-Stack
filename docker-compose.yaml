@@ -44,9 +44,6 @@ services:
       dns_network:
         ipv4_address: 172.18.0.5
         ipv6_address: fdbe:1005:e8bf::5
-    # links:
-    #   - unbound:unbound
-    #   - valkey:valkey
   ######################################
   unbound:
     container_name: unbound
@@ -62,8 +59,6 @@ services:
       dns_network:
         ipv4_address: 172.18.0.4
         ipv6_address: fdbe:1005:e8bf::4
-    # links:
-    #   - valkey:valkey
     command: ['-dd']
   #######################################
   valkey:
