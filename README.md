@@ -7,7 +7,7 @@ A docker/podman container stack combining **AdGuard Home**,
 
 Be sure to copy _`./adguardhome/conf/AdGuardHome.base.yaml`_ to
 _`./adguardhome/conf/AdGuardHome.yaml`_ before using either
-`docker-compose` or `podman compose`.
+`sudo docker-compose up -d` or `sudo podman-compose up -d`.
 
 > [!NOTE]
 > It's better to stick with rootful Docker since you are
