@@ -65,7 +65,7 @@ server_names = [
 #  > It's recommended you pick the former as it covers both ipv4 and ipv6.
 #  > Or you use the latter if you planning to only use ipv4.
 
-listen_addresses = ['[::]:53']
+listen_addresses = ['[::]:5343']
 
 
 ## Maximum number of simultaneous client connections to accept

@@ -24,7 +24,7 @@ dns:
   refuse_any: true
   upstream_dns:
     - '# Unbound'
-    - unbound:5363
+    - unbound:53
   upstream_dns_file: ""
   bootstrap_dns:
     - 9.9.9.9
