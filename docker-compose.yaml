@@ -9,9 +9,12 @@ services:
       - valkey
       - dnscrypt-proxy
     ports:
-      - 3000:3000/tcp # AdGuard Home web interface
-      - 53:53/tcp # DNS over TCP
-      - 53:53/udp # DNS over UDP
+      - 3000:3000/tcp
+      - 53:53/tcp
+      - 53:53/udp
+      - 80:80/tcp
+      - 443:443/tcp
+      - 443:443/udp
       #######################################
       ## If you are planning to use AdGuard Home
       ## as a DHCP server,
@@ -19,13 +22,6 @@ services:
       # - 67:67/udp
       # - 68:68/tcp
       # - 68:68/udp
-      #######################################
-      ## If you are planning to use AdGuard Home
-      ## over an HTTPS/DNS-over-HTTPS server,
-      ## uncomment the following:
-      - 80:80/tcp
-      - 443:443/tcp
-      - 443:443/udp
       #######################################
       ## If you are planning to use AdGuard Home
       ## as a DNS-over-QUIC server,
