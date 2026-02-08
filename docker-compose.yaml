@@ -84,12 +84,11 @@ services:
     volumes:
       - ./valkey:/usr/local/etc/valkey
 
-
-networks:
-  dns_network:
-    driver: bridge
-    ipam:
-      config:
-        - subnet: 10.0.0.0/24
-  Your_external_network:
-    external: true
+# networks:
+#   dns_network:
+#     driver: bridge
+#     ipam:
+#       config:
+#         - subnet: 10.0.0.0/24
+#   Your_external_network:
+#     external: true
