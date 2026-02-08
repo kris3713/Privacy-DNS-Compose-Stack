@@ -41,7 +41,12 @@ services:
       - ./adguardhome/work:/opt/adguardhome/work:rw
     restart: unless-stopped
     networks:
-      - dns_network
+      dns_network:
+        ipv4_address: 172.18.0.5
+        ipv6_address: fdbe:1005:e8bf::5
+    # links:
+    #   - unbound:unbound
+    #   - valkey:valkey
   ######################################
   unbound:
     container_name: unbound
@@ -49,43 +54,46 @@ services:
     depends_on:
       - valkey
       - dnscrypt-proxy
-    # ports:
-    #   # If port 5353 is not occuppied feel free to use it here.
-    #   - 5363:53/tcp
-    #   - 5363:53/udp
     volumes:
       - ./unbound:/etc/unbound:rw
       - ./unbound/conf.d:/etc/unbound/custom.conf.d:rw
     restart: unless-stopped
     networks:
-      - dns_network
+      dns_network:
+        ipv4_address: 172.18.0.4
+        ipv6_address: fdbe:1005:e8bf::4
+    # links:
+    #   - valkey:valkey
     command: ['-d']
   #######################################
   valkey:
     container_name: valkey
     image: docker.io/valkey/valkey:latest
-    ports:
-      - 6379:6379/tcp
     volumes:
       - ./valkey:/usr/local/etc/valkey:rw
     restart: unless-stopped
     networks:
-      - dns_network
+      dns_network:
+        ipv4_address: 172.18.0.3
+        ipv6_address: fdbe:1005:e8bf::3
   #######################################
   dnscrypt-proxy:
     container_name: dnscrypt-proxy
     image: docker.io/klutchell/dnscrypt-proxy:latest
-    # ports:
-    #   - 5343:53/tcp
-    #   - 5343:53/udp
     volumes:
       - ./dnscrypt-proxy:/config:rw
     restart: unless-stopped
     networks:
-      - dns_network
+      dns_network:
+        ipv4_address: 172.18.0.2
+        ipv6_address: fdbe:1005:e8bf::2
 
 networks:
   dns_network:
     enable_ipv4: true
     enable_ipv6: true
     driver: bridge
+    ipam:
+      config:
+        - subnet: 172.18.0.0/24
+        - subnet: fdbe:1005:e8bf::/64

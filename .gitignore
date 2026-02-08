@@ -1,3 +1,5 @@
 /adguardhome/conf/AdGuardHome.yaml
 /adguardhome/work/**
+!/adguardhome/work/userfilters
+!/adguardhome/work/userfilters/*
 /dnscrypt-proxy/*.md
