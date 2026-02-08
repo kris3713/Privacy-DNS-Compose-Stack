@@ -1,2 +1,2 @@
-./adguardhome/conf/AdGuardHome.yaml
-./adguardhome/work/*
+/adguardhome/conf/AdGuardHome.yaml
+/adguardhome/work/*
