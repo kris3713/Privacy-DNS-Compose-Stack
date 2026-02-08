@@ -1,9 +1,13 @@
 # docker-compose.yml
 
 services:
-  adguard:
-    container_name: adguard
+  adguardhome:
+    container_name: adguardhome
     image: docker.io/adguard/adguardhome:latest
+    depends_on:
+      - unbound
+      - valkey
+      - dnscrypt-proxy
     ports:
       - 3000:3000/tcp # AdGuard Home web interface
       - 53:53/tcp # DNS over TCP
@@ -19,9 +23,9 @@ services:
       ## If you are planning to use AdGuard Home
       ## over an HTTPS/DNS-over-HTTPS server,
       ## uncomment the following:
-      # - 80:80/tcp
-      # - 443:443/tcp
-      # - 443:443/udp
+      - 80:80/tcp
+      - 443:443/tcp
+      - 443:443/udp
       #######################################
       ## If you are planning to use AdGuard Home
       ## as a DNS-over-QUIC server,
@@ -35,60 +39,57 @@ services:
       ## uncomment the following:
       # - 5443:5443/tcp
       # - 5443:5443/udp
+    user: 1000:1000
     volumes:
       - ./adguardhome/conf:/opt/adguardhome/conf:rw
       - ./adguardhome/work:/opt/adguardhome/work:rw
     restart: unless-stopped
-    network_mode: bridge
-
-  dnscrypt_proxy:
-    container_name: dnscrypt_proxy
-    image: docker.io/klutchell/dnscrypt-proxy:latest
-    ports:
-      - 5343:53/tcp
-      - 5343:53/udp
-    volumes:
-      - ./dnscrypt-proxy:/config
-    restart: unless-stopped
-    security_opt:
-      - no-new-privileges:true
-
+    networks:
+      - dns_network
+  ######################################
   unbound:
     container_name: unbound
     image: docker.io/klutchell/unbound:latest
     depends_on:
-      - redis
+      - valkey
+      - dnscrypt-proxy
     ports:
       # If port 5353 is not occuppied feel free to use it here.
       - 5363:53/tcp
       - 5363:53/udp
     volumes:
-      - ./unbound_conf.d:/etc/unbound/custom.conf.d
+      - ./unbound:/etc/unbound:rw
+      - ./unbound/conf.d:/etc/unbound/custom.conf.d:rw
+    restart: unless-stopped
     networks:
-      dns_network:
-        ipv4_address: 10.0.0.5
-    environment:
-      - PUID=1000
-      - PGID=1000
-      - TZ=GMT
-    security_opt:
-      - no-new-privileges:true
-    restart: unless-stopped
-
+      - dns_network
+    command: ['-d']
+  #######################################
   valkey:
-    image: docker.io/valkey/valkey:latest
     container_name: valkey
-    restart: unless-stopped
+    image: docker.io/valkey/valkey:latest
     ports:
       - 6379:6379/tcp
     volumes:
-      - ./valkey:/usr/local/etc/valkey
+      - ./valkey:/usr/local/etc/valkey:rw
+    restart: unless-stopped
+    networks:
+      - dns_network
+  #######################################
+  dnscrypt-proxy:
+    container_name: dnscrypt-proxy
+    image: docker.io/klutchell/dnscrypt-proxy:latest
+    # ports:
+    #   - 5343:53/tcp
+    #   - 5343:53/udp
+    volumes:
+      - ./dnscrypt-proxy:/config:rw
+    restart: unless-stopped
+    networks:
+      - dns_network
 
-# networks:
-#   dns_network:
-#     driver: bridge
-#     ipam:
-#       config:
-#         - subnet: 10.0.0.0/24
-#   Your_external_network:
-#     external: true
+networks:
+  dns_network:
+    enable_ipv4: true
+    enable_ipv6: true
+    driver: bridge

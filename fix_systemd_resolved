@@ -1,6 +1,6 @@
 #!/usr/bin/env -S bash --noprofile
 
-set -x
+set -ex
 
 if ! [ -z "$SUDO_USER" ]; then
   echo 'Do not run this script with sudo!'

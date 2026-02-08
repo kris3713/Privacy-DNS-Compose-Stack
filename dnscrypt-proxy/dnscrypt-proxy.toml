@@ -65,7 +65,7 @@ server_names = [
 #  > It's recommended you pick the former as it covers both ipv4 and ipv6.
 #  > Or you use the latter if you planning to only use ipv4.
 
-listen_addresses = ['[::]:5343']
+listen_addresses = ['[::]:53']
 
 
 ## Maximum number of simultaneous client connections to accept
@@ -790,7 +790,7 @@ urls = [
   'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/public-resolvers.md',
   'https://download.dnscrypt.info/resolvers-list/v3/public-resolvers.md',
 ]
-cache_file = 'public-resolvers.md'
+cache_file = '/home/nonroot/public-resolvers.md'
 minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
 refresh_delay = 72
 prefix = ''
@@ -802,7 +802,7 @@ urls = [
   'https://raw.githubusercontent.com/DNSCrypt/dnscrypt-resolvers/master/v3/relays.md',
   'https://download.dnscrypt.info/resolvers-list/v3/relays.md'
 ]
-cache_file = 'relays.md'
+cache_file = '/home/nonroot/relays.md'
 minisign_key = 'RWQf6LRCGA9i53mlYecO4IzT51TGPpvWucNSCh1CBM0QTaLn73Y7GFO3'
 refresh_delay = 73
 prefix = ''
