@@ -76,6 +76,9 @@ services:
       dns_network:
         ipv4_address: 172.18.0.3
         ipv6_address: fdbe:1005:e8bf::3
+    command:
+      - valkey-server
+      - /usr/local/etc/valkey/valkey.conf
   #######################################
   dnscrypt-proxy:
     container_name: dnscrypt-proxy
