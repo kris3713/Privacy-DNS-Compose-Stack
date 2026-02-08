@@ -1,0 +1,31 @@
+#!/usr/bin/env -S bash --noprofile
+
+set -x
+
+if ! [ -z "$SUDO_USER" ]; then
+  echo 'Do not run this script with sudo!'
+  exit 1
+else
+  sudo -v
+fi
+
+# SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+RESOLVED_DIR='/etc/systemd/resolved.conf.d'
+
+sudo mkdir -pv "$RESOLVED_DIR"
+
+CONTENT="$(cat << 'INI'
+# /etc/systemd/resolved.conf.d/free_port_53.conf
+
+# This allows either AdGuardHome/Unbound/dnscrypt-proxy
+# to be the primary DNS resolver, and forcing
+# systemd-resolved to use another port.
+[Resolve]
+DNS=127.0.0.1
+FallbackDNS=
+DNSStubListener=no
+INI
+)"
+
+printf '%s\n' "$CONTENT" | sudo tee \
+  "$RESOLVED_DIR/free_port_53.conf" &> /dev/null
