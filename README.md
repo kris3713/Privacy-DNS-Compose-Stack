@@ -16,7 +16,7 @@ _`./adguardhome/conf/AdGuardHome.yaml`_ before using either
 
 ## Logging in to AdGuard Home WebUI
 
-The username is: **root**
+The username is: **root** <br>
 The password is: **rootpass**
 
 ## License
