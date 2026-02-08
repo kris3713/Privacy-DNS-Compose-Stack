@@ -14,6 +14,11 @@ _`./adguardhome/conf/AdGuardHome.yaml`_ before using either
 > less likely to bump into issues. This does not work well
 > with rootful/rootless Podman.
 
+## Logging in to AdGuard Home WebUI
+
+The username is: **root**
+The password is: **rootpass**
+
 ## License
 
 This project is licensed under the **Unlicense** license.
