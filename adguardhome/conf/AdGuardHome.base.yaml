@@ -24,8 +24,8 @@ dns:
   refuse_any: true
   upstream_dns:
     - '# Unbound'
-    - 172.18.0.4:53
-    - '[fdbe:1005:e8bf::4]:53'
+    - ubound:53
+    - tcp://ubound:53
   upstream_dns_file: ""
   bootstrap_dns:
     - 9.9.9.9
