@@ -56,14 +56,11 @@ server_names = [
 ## To listen to all IPv4 addresses, use `listen_addresses = ['0.0.0.0:53']`
 ## To listen to all IPv4+IPv6 addresses, use `listen_addresses = ['[::]:53']`
 
-# Planning on using this with AdGuard Home (Native or Snap if on Linux)
-# listen_addresses = ['127.0.0.1:5343', '[::1]:5343']
-
 # WARN:
 #  > dnscrypt-proxy treats [::] and 0.0.0.0 as if they are the same.
 #  > You must pick one or the other.
 #  > It's recommended you pick the former as it covers both ipv4 and ipv6.
-#  > Or you use the latter if you planning to only use ipv4.
+#  > Or use the latter if you planning to only use ipv4.
 
 listen_addresses = ['[::]:5343']
 
