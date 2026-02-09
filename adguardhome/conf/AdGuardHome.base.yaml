@@ -34,7 +34,7 @@ dns:
     - 2620:fe::9
   fallback_dns:
     - tls://dns.quad9.net
-    - https://dns10.quad9.net/dns-query
+    - https://dns.quad9.net/dns-query
   upstream_mode: load_balance
   fastest_timeout: 1s
   allowed_clients: []
