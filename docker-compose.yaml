@@ -47,13 +47,13 @@ services:
   ######################################
   unbound:
     container_name: unbound
-    image: docker.io/klutchell/unbound:latest
+    image: docker.io/klutchell/unbound:main
     depends_on:
       - valkey
       - dnscrypt-proxy
     volumes:
       - ./unbound:/etc/unbound:rw
-      - ./unbound/conf.d:/etc/unbound/custom.conf.d:rw
+      - ./unbound/conf.d:/etc/unbound/custom.conf.d:ro
     restart: unless-stopped
     networks:
       dns_network:
@@ -63,9 +63,12 @@ services:
   #######################################
   valkey:
     container_name: valkey
-    image: docker.io/valkey/valkey:latest
+    image: docker.io/valkey/valkey:unstable-alpine
     volumes:
-      - ./valkey:/usr/local/etc/valkey:rw
+      # This ensures all DNS queries are
+      # persisted between runs, restarts, etc.
+      - valkey_data:/data:rw
+      - ./valkey:/usr/local/etc/valkey:ro
     restart: unless-stopped
     networks:
       dns_network:
@@ -77,9 +80,11 @@ services:
   #######################################
   dnscrypt-proxy:
     container_name: dnscrypt-proxy
-    image: docker.io/klutchell/dnscrypt-proxy:latest
+    image: docker.io/klutchell/dnscrypt-proxy:main
+    user: 1000:1000
     volumes:
-      - ./dnscrypt-proxy:/config:rw
+      - ./dnscrypt-proxy/cache:/var/cache/dnscrypt-proxy:rw
+      - ./dnscrypt-proxy:/config:ro
     restart: unless-stopped
     networks:
       dns_network:
@@ -94,4 +99,9 @@ networks:
     ipam:
       config:
         - subnet: 172.18.0.0/24
-        - subnet: fdbe:1005:e8bf::/64
+        - subnet: fdbe:1005:e8bf::0/64
+
+volumes:
+  valkey_data:
+    name: valkey_data
+    driver: local
