@@ -85,7 +85,7 @@ services:
     user: 1000:1000
     volumes:
       - ./dnscrypt-proxy/cache:/var/cache/dnscrypt-proxy:rw
-      - ./dnscrypt-proxy:/config:ro
+      - ./dnscrypt-proxy:/config:rw
     restart: unless-stopped
     networks:
       dns_network:
