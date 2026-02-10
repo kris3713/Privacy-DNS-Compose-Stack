@@ -60,7 +60,7 @@ server_names = [
 #  > dnscrypt-proxy treats [::] and 0.0.0.0 as if they are the same.
 #  > You must pick one or the other.
 #  > It's recommended you pick the former as it covers both ipv4 and ipv6.
-#  > Or use the latter if you planning to only use ipv4.
+#  > Or use the latter if you are planning to only use ipv4.
 
 listen_addresses = ['[::]:5343']
 
