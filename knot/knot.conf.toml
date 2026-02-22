@@ -1,0 +1,48 @@
+#:schema https://www.knot-resolver.cz/documentation/latest/_static/config.schema.json
+#
+# There are two reasons for why this is done in TOML
+# 1. Easier to manage than in JSON.
+# 2. TOML language servers like `taplo`/`tombi` have better support for modern JSON schema
+#   drafts that `yaml-language-server` severely lacks.
+#
+# NOTE: This will be converted to a YAML file through a script.
+# NOTE: The resulting YAML file will be generated as a result.
+
+# hostname = 'knot-resolver'
+
+fallback.enable = false
+
+[network]
+do-ipv4 = true
+do-ipv6   = true
+
+[[network.listen]]
+interface = [
+  '::0',
+  '0.0.0.0'
+]
+port = 53
+kind = 'dns'
+
+
+# Forwards all DNS queries to dnscrypt-proxy
+[[forward]]
+subtree = '.'
+servers = [
+  '172.18.0.2@5343',
+  'fdbe:1005:e8bf::2@5343'
+]
+options = { authoritative = false , dnssec = true }
+
+
+[cache]
+storage  = '/var/cache/knot-resolver'
+size-max = '8G'
+
+
+[logging]
+level = 'info'
+groups = [
+  'manager',
+  'cache'
+]
