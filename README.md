@@ -10,7 +10,7 @@ _`./adguardhome/conf/AdGuardHome.yaml`_ before using either
 
 2. Run `./knot/generate-config` to generate a brand new yaml
 config for the _**Knot Resolver**_. Which will be located
-at `./knot/config.yaml`.
+at _`./knot/config.yaml`_.
 
 Afterwards, run either `sudo docker-compose up -d` or
 `sudo podman-compose up -d`.
