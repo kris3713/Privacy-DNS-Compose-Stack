@@ -23,9 +23,9 @@ dns:
   ratelimit_whitelist: []
   refuse_any: true
   upstream_dns:
-    - '# Unbound'
-    - ubound:53
-    - tcp://ubound:53
+    - '# Knot Resolver'
+    - knot-resolver:53
+    - knot-resolver://ubound:53
   upstream_dns_file: ""
   bootstrap_dns:
     - 9.9.9.9

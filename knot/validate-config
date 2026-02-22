@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+set -x
+
+SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
+
+podman run --rm -v "$SCRIPT_DIR/config.yaml:/etc/knot-resolver/config.yaml" \
+  --entrypoint 'kresctl' docker.io/cznic/knot-resolver:latest \
+  validate /etc/knot-resolver/config.yaml

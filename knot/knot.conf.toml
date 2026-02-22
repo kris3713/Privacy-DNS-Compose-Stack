@@ -12,9 +12,10 @@
 
 fallback.enable = false
 
+
 [network]
 do-ipv4 = true
-do-ipv6   = true
+do-ipv6 = true
 
 [[network.listen]]
 interface = [

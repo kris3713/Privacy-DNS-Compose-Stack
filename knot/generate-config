@@ -1,8 +1,10 @@
 #!/usr/bin/env bash
 
+set -x
+
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 
-echo -e '# THIS IS A GENERATED FILE. DO NOT MANUALLY EDIT!\n' > "$SCRIPT_DIR/knot.yaml"
-cat "$SCRIPT_DIR/knot.conf.toml" | dasel -i toml -o yaml >> "$SCRIPT_DIR/knot.yaml"
+echo -e '# THIS IS A GENERATED FILE. DO NOT MANUALLY EDIT!\n' > "$SCRIPT_DIR/config.yaml"
+cat "$SCRIPT_DIR/knot.conf.toml" | dasel -i toml -o yaml >> "$SCRIPT_DIR/config.yaml"
 
-echo "Generated '$SCRIPT_DIR/knot.yaml' from '$SCRIPT_DIR/knot.conf.toml'!"
+echo "Generated '$SCRIPT_DIR/config.yaml' from '$SCRIPT_DIR/knot.conf.toml'!"

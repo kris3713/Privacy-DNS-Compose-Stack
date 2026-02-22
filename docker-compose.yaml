@@ -5,8 +5,7 @@ services:
     container_name: adguardhome
     image: docker.io/adguard/adguardhome:latest
     depends_on:
-      - unbound
-      - valkey
+      - knot-resolver
       - dnscrypt-proxy
     ports:
       - 3000:3000/tcp
@@ -46,44 +45,22 @@ services:
         ipv4_address: 172.18.0.5
         ipv6_address: fdbe:1005:e8bf::5
     extra_hosts:
-      - unbound:172.18.0.4
-      - unbound:fdbe:1005:e8bf::4
+      - knot-resolver:172.18.0.4
+      - knot-resolver:fdbe:1005:e8bf::4
   ######################################
-  unbound:
-    container_name: unbound
-    image: docker.io/klutchell/unbound:main
+  knot-resolver:
+    container_name: knot-resolver
+    image: docker.io/cznic/knot-resolver:latest
     depends_on:
-      - valkey
       - dnscrypt-proxy
     volumes:
-      - ./unbound:/etc/unbound:rw
-      - ./unbound/conf.d:/etc/unbound/custom.conf.d:ro
+      - ./knot/config.yaml:/etc/knot-resolver/config.yaml:rw
+      - knot_cache:/var/cache/knot-resolver
     restart: unless-stopped
     networks:
       dns_network:
         ipv4_address: 172.18.0.4
         ipv6_address: fdbe:1005:e8bf::4
-    extra_hosts:
-      - valkey:172.18.0.3
-      - valkey:fdbe:1005:e8bf::3
-    command: ['-dd']
-  #######################################
-  valkey:
-    container_name: valkey
-    image: docker.io/valkey/valkey:unstable-alpine
-    volumes:
-      # This ensures all DNS queries are
-      # persisted between runs, restarts, etc.
-      - valkey_data:/data:rw
-      - ./valkey:/usr/local/etc/valkey:ro
-    restart: unless-stopped
-    networks:
-      dns_network:
-        ipv4_address: 172.18.0.3
-        ipv6_address: fdbe:1005:e8bf::3
-    command:
-      - valkey-server
-      - /usr/local/etc/valkey/valkey.conf
   #######################################
   dnscrypt-proxy:
     container_name: dnscrypt-proxy
@@ -109,6 +86,9 @@ networks:
         - subnet: fdbe:1005:e8bf::0/64
 
 volumes:
-  valkey_data:
-    name: valkey_data
+  knot_cache:
+    name: knot_cache
     driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs

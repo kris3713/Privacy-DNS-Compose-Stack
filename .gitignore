@@ -9,4 +9,4 @@
 
 # dnscrypt-proxy
 /dnscrypt-proxy/cache/*
-/knot/knot.yaml
+/knot/config.yaml
