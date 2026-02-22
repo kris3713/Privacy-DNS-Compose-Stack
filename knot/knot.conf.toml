@@ -1,5 +1,4 @@
 #:schema https://www.knot-resolver.cz/documentation/latest/_static/config.schema.json
-#:tombi toml-version = "v1.1.0"
 #
 # There are two reasons for why this is done in TOML
 # 1. Easier to manage than in JSON.
@@ -17,15 +16,13 @@ fallback.enable = false
 [network]
 do-ipv4 = true
 do-ipv6 = true
-listen = [{
-  interface = [
-    '::0',
-    '0.0.0.0'
-  ],
-  port = 53,
-  kind = 'dns'
-}]
-
+[[network.listen]]
+interface = [
+  '::0',
+  '0.0.0.0'
+]
+port = 53
+kind = 'dns'
 
 # Forwards all DNS queries to dnscrypt-proxy
 [[forward]]
@@ -40,13 +37,11 @@ options = { authoritative = false , dnssec = true }
 [cache]
 storage  = '/var/cache/knot-resolver'
 size-max = '8G'
-prefetch = {
-  prediction = {
-    enable = true,
-    window = '15m',
-    period = 24
-  }
-}
+ttl-min = '5m'
+[cache.prefetch.prediction]
+enable = true
+window = '15m'
+period = 24
 
 
 [logging]
